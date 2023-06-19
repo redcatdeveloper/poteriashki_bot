@@ -1,4 +1,4 @@
-module poteriashki_bot
+module github.com/redcatdeveloper/poteriashki_bot
 
 go 1.18
 

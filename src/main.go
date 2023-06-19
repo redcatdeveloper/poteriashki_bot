@@ -2,6 +2,7 @@ package main
 
 import (
   "log"
+  constants "github.com/redcatdeveloper/poteriashki_bot/constants"
   tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
@@ -24,7 +25,7 @@ func main() {
 		if update.Message != nil { // If we got a message
 			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, constants.helloOnStart)
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			bot.Send(msg)
