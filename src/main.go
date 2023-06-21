@@ -4,6 +4,7 @@ import (
   "log"
   "github.com/redcatdeveloper/poteriashki_bot/constants"
   tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+  goconf "github.com/redcatdeveloper/goconf"
 )
 
 func main() {
