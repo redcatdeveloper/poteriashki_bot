@@ -8,7 +8,9 @@ import (
 )
 
 func main() {
-	bot, err := tgbotapi.NewBotAPI("")
+  conf := goconf.NewGoConf("config.ini")
+
+	bot, err := tgbotapi.NewBotAPI(conf.Get("Token"))
 	if err != nil {
 		log.Panic(err)
 	}
