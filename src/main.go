@@ -8,7 +8,12 @@ import (
 )
 
 func main() {
-  conf := goconf.NewGoConf("config.ini")
+  conf, err := goconf.NewGoConf("config.ini")
+  if err != nil {
+    log.Panic(err)
+  }
+
+  log.Printf("Usage Token: %s \n", conf.Get("Token"))
 
 	bot, err := tgbotapi.NewBotAPI(conf.Get("Token"))
 	if err != nil {

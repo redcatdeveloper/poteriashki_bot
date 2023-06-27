@@ -20,4 +20,8 @@ src/vendor
 
 # Go workspace file
 go.work
+#Config file
+config.ini
+
+# Binaty file
 poteriashki_bot
