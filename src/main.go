@@ -1,7 +1,9 @@
 package main
 
 import (
+  "fmt"
   "log"
+  "strconv"
   "github.com/redcatdeveloper/poteriashki_bot/constants"
   tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
   goconf "github.com/redcatdeveloper/goconf"
@@ -14,6 +16,7 @@ func main() {
   }
 
   log.Printf("Usage Token: %s \n", conf.Get("Token"))
+  DebugChannelId, _ := strconv.ParseInt(conf.Get("DebugChannelId"), 10, 64)
 
 	bot, err := tgbotapi.NewBotAPI(conf.Get("Token"))
 	if err != nil {
@@ -31,12 +34,25 @@ func main() {
 
 	for update := range updates {
 		if update.Message != nil { // If we got a message
-			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
+			debugLog(bot, DebugChannelId, fmt.Sprintf("[%s] on %d: %s", update.Message.From.UserName, update.Message.Chat.ID, update.Message.Text))
 
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, constants.HELLO_ON_START)
-			msg.ReplyToMessageID = update.Message.MessageID
+      if update.Message.IsCommand() {
+        msg := tgbotapi.NewMessage(update.Message.Chat.ID, "")
 
-			bot.Send(msg)
+        switch update.Message.Command() {
+          case "start":
+            msg.Text = constants.HELLO_ON_START
+          default:
+            msg.Text = "ой"
+        }
+			  bot.Send(msg)
+      }
 		}
 	}
+}
+
+func debugLog(bot *tgbotapi.BotAPI, channelId int64, str string) {
+  log.Print(str)
+  msg := tgbotapi.NewMessage(channelId, str)
+  bot.Send(msg)
 }
